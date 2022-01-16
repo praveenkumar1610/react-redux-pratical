@@ -1,23 +1,31 @@
 import logo from './logo.svg';
 import './App.css';
+import React,{useState} from 'react';
+
+import {useSelector,useDispatch} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import {actionCreators} from './state/index';
 
 function App() {
+  const [userAmount,setUserAmount] =useState(0)
+  const state = useSelector((state)=>state.account)
+
+  const dispatch = useDispatch();
+
+  const {depositMoney,withdrawMoney}=bindActionCreators(actionCreators,dispatch);
+
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+        <h1>Royal Banks</h1>
+        <h1>{state}</h1>
+
+        <h4>Type the Amount</h4>
+        <input placeholder="type the Amount" onChange={(e)=>setUserAmount(e.target.value)} value={userAmount} type="number"></input>
+        <div>
+          <button onClick={()=>depositMoney(100)}>Deposit</button>
+          <button onClick={()=>withdrawMoney(100)}>Withdraw</button>
+        </div>
     </div>
   );
 }
